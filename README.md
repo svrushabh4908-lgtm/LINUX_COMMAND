@@ -1,375 +1,455 @@
-Table of Contents
-- ✨ Project Overview
-- ❗ Problem Statement
-- 🎯 Objectives
-- 🚀 Key Features
-- 🧰 Technology Stack
-- 🏗️ System Architecture
-- 🔄 Data Flow
-- ⚙️ How It Works
-- 🖥️ Example User Journey
-- 📂 Suggested Folder Structure
-- 🛠️ Installation and Setup
-- 🧪 Testing Plan
-- 🔐 Privacy, Safety, and
-  Limitations
-- 🗺️ Development Roadmap
-- ✅ Success Criteria
-- 🌱 Future Enhancements
-✨ Project Overview
-ProofFind is an evidence-based document question-answering
-application. Users upload a PDF or TXT file, ask questions in everyday
-language, and receive answers supported by relevant passages from the
-uploaded document.
-\(!IMPORTANT\) ProofFind is designed to show its evidence. If the
-document does not contain enough information to answer a question, the
-application should say so instead of inventing a response.
+# ProofFind --- Evidence-based document question answering
 
-💡 Example
-A student uploads a college notice and asks:
-"What is the assignment submission deadline?"
+> `proof-find` --- searches an uploaded PDF or TXT document for passages
+> that support an answer, then shows the evidence so the user can verify
+> it.
 
-ProofFind searches the document and displays: - A concise answer, if the
-document supports one. - The exact passage used as evidence. - A page
-reference when page information is available. - A clear "Not specified
-in this document" response if the information cannot be found
-reliably.
-❗ Problem Statement
-Long PDFs, college notices, policies, manuals, and reports can be
-difficult to search manually. A user may spend several minutes locating
-one important date or rule.
+**Team:** Vrushabh Sonawane, Yash Aryaa.  
+**Repository:** Add the project GitHub URL when available  
+**Date:** 28-10-2026
 
-Traditional keyword search may miss relevant information when the
-wording differs from the user's question. General-purpose AI tools can
-also produce answers that sound confident without providing evidence
-from the source.
+------------------------------------------------------------------------
 
-ProofFind addresses this problem by retrieving relevant text and
-showing the evidence behind its answers.
-🎯 Objectives
-- 📄 Allow users to upload PDF and TXT documents.
-- 🔍 Find passages relevant to a natural-language question.
-- 💬 Present a concise answer grounded in retrieved text.
-- 🧾 Display evidence so users can verify the answer.
-- 🛑 Avoid guessing when the document does not support an answer.
-- 🖥️ Provide a clean, easy-to-demonstrate interface.
-🚀 Key Features
-  Feature                 Description             Priority
-  📤 Document upload      Upload PDF or TXT files MVP
+## 1. The problem
 
-  📝 Text extraction      Extract readable text   MVP
-                          from documents          
+ProofFind focuses on a repeated task: searching long documents to find a
+specific answer, date, rule, or requirement.
 
-  ✂️ Text chunking        Split long text into    MVP
-                          smaller passages        
+### What we keep doing by hand
 
-  🔎 Evidence retrieval   Find passages relevant  MVP
-                          to the question         
+For this project, the problem is the effort required to locate a specific fact in a long PDF or text document. The following workflow describes the common manual approach that ProofFind is designed to simplify; it is not a measured user-study result.
 
-  🧾 Evidence display     Show the source passage MVP
-                          behind the answer       
+A typical manual workflow may look like this:
 
-  🚫 Safe fallback        Say when evidence is    MVP
-                          insufficient            
+1.  Open a PDF or notice.
+2.  Use the PDF reader's search feature or scroll through pages.
+3.  Try different keywords if the first search does not find the answer.
+4.  Read surrounding paragraphs to understand the context.
+5.  Copy the relevant passage into notes or a message.
+6.  Repeat for the next question or document.
 
-  🧠 Semantic search      Find meaning-related    Enhancement
-                          passages using
-                          embeddings              
+``` text
+# Example manual workflow — replace with your real workflow
+Open college_notice.pdf
+Search for "deadline"
+Read the matching paragraph
+Check the surrounding context
+Copy the answer and page number
+```
 
-  📚 Multiple documents   Search across more than Enhancement
-                          one document            
+### Evidence and problem validation
 
-  📥 Export results       Download                Enhancement
-                          question-and-answer
-                      history                 
-MVP means Minimum Viable Product: the smallest working version
-that demonstrates the core idea.
-🧰 Technology Stack
-  Technology                          Purpose
-  Python 3                        Main application logic
+The project addresses a plausible document-search problem, but the team has not provided measured timings, screenshots, or user-interview results in this README. These should be collected during testing rather than estimated.
 
-  Streamlit                       Build the interactive web interface
+A practical validation trial should record the document used, the exact question, the time taken manually, the number of searches or steps, and evidence such as notes or screenshots. Until those observations are collected, the frequency of the problem and the time cost remain unmeasured.
 
-  pypdf                           Extract text from PDF files
+### Who else has this problem
 
-  Python standard library         Read TXT files and handle basic
-                                      operations
+Potential users include students searching assignment instructions, applicants checking notices, and staff looking up rules in long documents. These are intended user groups, not confirmed interview findings. Direct feedback from classmates, faculty members, or other document users is still pending.
 
-  scikit-learn TF-IDF             Baseline text retrieval for the
-                                      first version
+------------------------------------------------------------------------
 
-  sentence-transformers           Generate text embeddings for
-  (optional)                        semantic search
+## 2. Prior art --- what already exists
 
-  FAISS or Chroma (optional)    Store and search vector embeddings
+> Do not claim that no similar tools exist. Compare ProofFind with
+> existing approaches and record what you actually tested.
 
-  LLM API (optional)            Compose natural-language answers
-                                      from retrieved evidence
+### Tools we found and actually tried
 
-  unittest / pytest               Test extraction, retrieval, and
-                                      fallback behavior
-  Git and GitHub                  Version control and project sharing
-💡 Recommended approach: First build a working version with
-keyword or TF-IDF search. Add embeddings, a vector database, and an
-LLM only after the basic pipeline works.
+**Complete this table after trying the tools.** A link alone is not
+proof that a tool was tested.
 
-🏗️ System Architecture
-The application is organized as a pipeline. Each component has one
-responsibility, making the project easier to build, test, and explain.
-```mermaid
+  ------------------------------------------------------------------------
+  Tool / approach    Where we found it What it does      What was missing
+                                                         in our test case
+  ------------------ ----------------- ----------------- -----------------
+  PDF reader search  \[Name/link\]     Searches for      \[Record the
+                                       matching words in actual limitation
+                                       a PDF             you observed\]
+
+  Operating-system   \[Name/link\]     Finds files or    \[Record the
+  or desktop                           text, depending   actual limitation
+  document search                      on the tool       you observed\]
+
+  Existing PDF chat  \[Name/link\]     Lets users ask    \[Record the
+  / document Q&A                       questions about   actual limitation
+  tool                                 documents         you observed\]
+  ------------------------------------------------------------------------
+
+### Evidence of trying them
+
+For at least one tool, record the exact question/document used and what
+happened.
+
+``` text
+Tool tested: [Name and version, if available]
+Document: [Document name or safe sample]
+Question: [Question asked]
+Observed result: [Paste actual result or summarize it]
+Limitation observed: [Specific issue, if any]
+```
+
+> Do not invent terminal output or claim a tool failed unless you
+> reproduced the failure.
+
+### Where we searched
+
+Mark each item only after you have actually searched it.
+
+-   [ ] Search engine queries for PDF question-answering and document
+    search
+-   [ ] GitHub search for document Q&A / PDF search projects
+-   [ ] PyPI for Python document-search packages
+-   [ ] Streamlit community apps or examples
+-   [ ] Asked a human: \[who, and what they said\]
+-   [ ] Tested an existing PDF reader's built-in search
+-   [ ] Tested at least one existing document question-answering tool
+
+### The gap, in one sentence
+
+Complete this after your comparison:
+
+> "Existing tools can do \_\_\_\_\_\_, but in our tested use case they
+> do not \_\_\_\_\_\_, which is the part ProofFind is intended to
+> improve."
+
+Possible project focus to investigate---not a verified claim about all
+existing tools: **a simple student-focused workflow that displays the
+exact supporting passage and clearly says when the uploaded document
+does not contain enough evidence.**
+
+------------------------------------------------------------------------
+
+## 3. What we are building
+
+### In scope
+
+-   Upload one readable PDF or TXT document.
+-   Extract text and split long content into smaller passages.
+-   Retrieve passages relevant to a user's question.
+-   Display the answer together with the supporting passage and page
+    information when available.
+-   Show an "insufficient evidence" response when the source does not
+    support an answer.
+
+### Out of scope
+
+-   Guaranteeing that every answer is correct.
+-   Giving legal, medical, financial, or other professional advice.
+-   Reading every scanned PDF image in the first version; OCR can be
+    added later.
+-   Searching the entire internet or private drives.
+-   Claiming that an answer is verified merely because an AI model
+    generated it.
+
+### How we will know it worked
+
+> "ProofFind is successful if, on a prepared test set of \_\_\_
+> questions across \_\_\_ sample documents, it retrieves useful
+> supporting passages for \_\_\_ questions, displays evidence for every
+> answer it gives, and abstains on questions whose answers are absent
+> from the source."
+
+Fill the blanks only after running and recording the tests.
+
+------------------------------------------------------------------------
+
+## 4. Tech stack
+
+  -------------------------------------------------------------------------
+  Choice                  What we picked            Why, and what we
+                                                    rejected
+  ----------------------- ------------------------- -----------------------
+  Language                Python 3                  Suitable for a
+                                                    beginner-friendly
+                                                    prototype and has
+                                                    document-processing and
+                                                    retrieval libraries.
+
+  User interface          Streamlit                 Quickly creates a local
+                                                    interactive interface
+                                                    without requiring a
+                                                    separate frontend
+                                                    framework.
+
+  PDF extraction          `pypdf`                   A lightweight starting
+                                                    point for text-based
+                                                    PDFs; scanned PDFs may
+                                                    need OCR.
+
+  TXT extraction          Python file handling      No extra library is
+                                                    needed for basic text
+                                                    files.
+
+  Initial retrieval       TF-IDF with               Easier to inspect and
+                          `scikit-learn` or simple  debug than a vector
+                          keyword search            database for the first
+                                                    version.
+
+  Optional semantic       `sentence-transformers`   Can retrieve passages
+  retrieval                                         with related meaning
+                                                    even when the wording
+                                                    differs.
+
+  Optional vector index   FAISS or Chroma           Useful if the project
+                                                    grows to a larger
+                                                    collection of embedded
+                                                    passages.
+
+  Optional answer         LLM API                   Can format retrieved
+  generation                                        evidence into natural
+                                                    language, but adds API,
+                                                    privacy, and cost
+                                                    considerations.
+
+  Testing                 `unittest` or `pytest`    Makes extraction,
+                                                    retrieval, and
+                                                    missing-evidence
+                                                    behavior repeatable.
+
+  Version control         Git and GitHub            Tracks changes and
+                                                    makes the project
+                                                    easier to share and
+                                                    review.
+  -------------------------------------------------------------------------
+
+### Why this language
+
+Python is the main choice because the project is a document-processing
+and retrieval application, and Python has accessible libraries for PDF
+extraction, text processing, testing, and a simple user interface. It is
+also a practical choice for a student who is already learning Python.
+This is a project-fit decision, not a claim that Python is best for
+every application.
+
+### What we are deliberately not using
+
+The first version will not require a complex frontend/backend split, a
+paid LLM, or a vector database. Start with extraction, chunking,
+retrieval, and evidence display; add semantic search or an LLM only when
+the baseline works and testing shows a reason to improve it.
+
+------------------------------------------------------------------------
+
+## 5. Architecture
+
+The first version is a small pipeline: load a document, extract its
+text, prepare searchable passages, retrieve evidence for a question, and
+display a grounded result.
+
+``` mermaid
 flowchart TD
-    A["👤 User uploads PDF / TXT"] --> B["📄 Document Loader"]
-    B --> C["📝 Text Extraction"]
-    C --> D["✂️ Text Chunking"]
-    D --> E[("📚 Passage Store / Index")]
-    Q["❓ User Question"] --> R["🔎 Retrieval Engine"]
+    A["User uploads PDF / TXT"] --> B["Validate file"]
+    B --> C["Extract text"]
+    C --> D["Split into passages"]
+    D --> E["Build searchable index"]
+    Q["User asks a question"] --> R["Retrieve relevant passages"]
     E --> R
-    R --> S{"Relevant evidence found?"}
-    S -- "Yes" --> T["🧾 Select supporting passages"]
-    T --> U["💬 Answer grounded in evidence"]
-    S -- "No" --> V["🛑 Not specified / insufficient evidence"]
-    U --> W["🖥️ Show answer + evidence"]
-    V --> W
+    R --> S{"Enough relevant evidence?"}
+    S -->|Yes| T["Prepare answer from evidence"]
+    S -->|No| U["Return insufficient-evidence message"]
+    T --> V["Display answer and source passage"]
+    U --> V
 ```
-Component responsibilities
-  Component                           Responsibility
-  Document Loader                 Accept supported files and validate
-                                      the upload
 
-  Text Extraction                 Read text from the selected
-                                      document
+### Components
 
-  Text Chunking                   Split long text into manageable,
-                                      optionally overlapping passages
+  -----------------------------------------------------------------------
+  Part                    Responsibility          Suggested file
+  ----------------------- ----------------------- -----------------------
+  User interface          Upload documents,       `app.py`
+                          accept questions, show  
+                          results                 
 
-  Passage Store / Index           Keep passages available for
-                                      searching
+  Document loader         Validate files and      `document_loader.py`
+                          extract PDF/TXT text    
 
-  Retrieval Engine                Rank passages by relevance to the
-                                      question
+  Chunker                 Split extracted text    `chunker.py`
+                          into passages and       
+                          retain source metadata  
 
-  Evidence Selector               Choose passages that support a
-                                      possible answer
+  Retriever               Rank passages using     `retriever.py`
+                          keyword or TF-IDF       
+                          search                  
 
-  Answer Layer                    Present a concise response based on
-                                      the evidence
+  Answer formatter        Present a short         `answerer.py`
+                          response based on       
+                          selected evidence       
 
-  Fallback Handler                Avoid unsupported answers when
-                                      evidence is missing
+  Tests                   Check extraction,       `tests/`
+                          retrieval, and fallback 
+                          behavior                
+  -----------------------------------------------------------------------
 
-  Streamlit UI                    Display the upload control,
-                                  question box, answer, and evidence
-🔄 Data Flow
-The data flow describes how information moves through ProofFind from
-upload to answer.
-```mermaid
-flowchart LR
-    A["1. Upload file"] --> B["2. Extract text"]
-    B --> C["3. Split into chunks"]
-    C --> D["4. Build searchable index"]
-    E["5. Ask a question"] --> F["6. Retrieve relevant chunks"]
-    D --> F
-    F --> G{"7. Evidence sufficient?"}
-    G -- "Yes" --> H["8. Generate / format answer"]
-    G -- "No" --> I["8. Return safe fallback"]
-    H --> J["9. Show answer + source"]
-    I --> J
+### Data flow
+
+The input is a user-uploaded PDF or TXT file and a natural-language
+question. ProofFind extracts the document text, divides it into
+passages, ranks those passages against the question, and checks whether
+relevant evidence was found. The output is a concise response with the
+supporting passage and page information when available---or a clear
+insufficient-evidence message.
+
+### What happens when things go wrong
+
+  -----------------------------------------------------------------------
+  If this happens                     The tool should do this
+  ----------------------------------- -----------------------------------
+  Unsupported file type               Reject the upload and explain which
+                                      formats are supported.
+
+  Empty or unreadable document        Show a clear error and ask the user
+                                      to try another file.
+
+  Scanned PDF with no extractable     Explain that OCR may be needed; do
+  text                                not pretend the document was read.
+
+  No relevant passage found           Say the document does not provide
+                                      enough evidence to answer.
+
+  Retrieval finds a weak or unrelated Avoid presenting it as a certain
+  passage                             answer; show a fallback where
+                                      appropriate.
+
+  Optional LLM API is unavailable     Show a useful error or fall back to
+                                      displaying retrieved evidence if
+                                      implemented.
+  -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## 6. Usage
+
+> This section defines the intended user interface. The commands below
+> are setup/run commands; application features should be demonstrated
+> only after they are implemented.
+
+### Synopsis
+
+``` text
+streamlit run app.py
 ```
-Data flow explained
-1. Upload: The user selects a PDF or TXT file.
-2. Extract: ProofFind reads the document text. Page information
-   should be retained where possible.
-3. Chunk: Long text is split into smaller passages so relevant
-   sections can be retrieved.
-4. Index: The passages are prepared for keyword or semantic search.
-5. Question: The user types a question in natural language.
-6. Retrieve: The system ranks passages based on their relevance to
-   the question.
-7. Check evidence: The application checks whether the retrieved
-   passages appear relevant enough to support a response.
-8. Answer or abstain: It presents an evidence-based answer or
-   explains that the document does not provide enough information.
-9. Display: The user sees the response and the source passage,
-   allowing them to verify it.
-Important: Retrieval relevance is not a guarantee of correctness.
-Users should inspect the source passage, especially for important
-decisions.
 
-⚙️ How It Works
-1. Document ingestion
-The user uploads a readable PDF or TXT document. The application checks
-the file type and extracts its text.
-2. Text chunking
-The extracted text is divided into smaller passages. Overlapping chunks
-can help preserve context across chunk boundaries.
-3. Retrieval
-For the MVP, TF-IDF or keyword-based retrieval can rank passages. In a
-later version, embeddings can help find passages with similar meaning
-even when the wording differs.
-4. Answer generation
-The simplest version can display the best matching passage and a short
-answer. An optional LLM can turn the retrieved evidence into a
-natural-language response, but it should be instructed to use only the
-supplied evidence.
-5. Evidence and fallback
-The application displays the supporting text and, where available, the
-page number. If relevant evidence is missing, it should respond with a
-message such as:
-⚠️ "I couldn't find enough evidence to answer that from this
-document."
+### Main user actions
 
-🖥️ Example User Journey
-Sample document text:
-"All assignments must be submitted by 15 November. Submissions should
-be uploaded through the student portal."
+| Action | What it does | Expected behavior |
+|---|---|---|
+| Upload a file | Select a PDF or TXT document | The app validates the file and attempts text extraction |
+| Ask a question | Enter a question about the uploaded document | The app searches the extracted passages |
+| View evidence | Inspect the passage associated with the answer | The supporting source text is shown, with page information when available |
+| Ask an unsupported question | Ask for information absent from the document | The app reports that there is insufficient evidence to answer |
 
-User question: "What is the submission deadline?"
+### Examples
 
-Expected result:
-  Output                              Example
-  Answer                              The submission deadline is 15
-                                      November.
+**Question with supporting evidence**
 
-  Evidence                            "All assignments must be submitted
-                                      by 15 November."
+``` text
+Question: What is the assignment deadline?
+```
 
-  Source                              Page number or passage location, if
-                                      available
+Expected behavior for a sample document containing "Assignments must be
+submitted by 15 November":
 
-  Confidence handling                 Answer only if the retrieved
-                                  evidence supports it
-Second question: "What is the penalty for late submission?"
+``` text
+Answer: The assignment deadline is 15 November.
 
-If the document does not mention a penalty, ProofFind should state that
-the information is not specified in the document. The example above is
-illustrative; use a real sample document for the actual demonstration.
-📂 Suggested Folder Structure
-proof-find/
-├── app.py                  # Streamlit interface
-├── document_loader.py      # PDF and TXT text extraction
-├── chunker.py              # Text chunking functions
-├── retriever.py            # Keyword / TF-IDF retrieval
-├── answerer.py             # Evidence-based answer formatting
-├── tests/
-│   ├── test_chunker.py
-│   └── test_retriever.py
-├── sample_docs/
-│   └── sample_notice.txt
-├── requirements.txt        # Project dependencies
-├── .gitignore              # Excludes local and secret files
-└── README.md               # Project documentation
-🛠️ Installation and Setup
-\(!NOTE\) The commands below prepare the environment. They assume you
-have created the application source files; the README does not imply
-that the app is already implemented.
+Evidence: “Assignments must be submitted by 15 November.”
+Source: [Page number, if available]
+```
 
-Step 1 --- Create a project folder
+**Question not answered by the document**
+
+``` text
+Question: What is the penalty for late submission?
+```
+
+If the document contains no information about a penalty, expected
+behavior is:
+
+``` text
+I couldn't find enough evidence to answer that from this document.
+```
+
+**Unreadable file**
+
+``` text
+Expected behavior:
+The app explains that it could not extract readable text and suggests trying a text-based PDF or TXT file.
+```
+
+> The outputs above are illustrative examples, not captured output from
+> an implemented application.
+
+### Exit codes
+
+For the Streamlit MVP, normal application behavior is handled through
+the UI rather than a custom command-line interface. If a separate CLI is
+added later, document its exit codes and test them.
+
+### Installation
+
+Create and activate an environment on macOS:
+
+``` bash
 mkdir proof-find
 cd proof-find
-Step 2 --- Create and activate a virtual environment
-macOS / Linux:
 python3 -m venv .venv
 source .venv/bin/activate
-Step 3 --- Install the MVP dependencies
 python -m pip install streamlit pypdf scikit-learn
-Step 4 --- Create a dependency file
-python -m pip freeze > requirements.txt
-Step 5 --- Run the application
-After you have implemented app.py, start the Streamlit application:
+```
+
+After creating `app.py` and the supporting modules, run:
+
+``` bash
 streamlit run app.py
-Streamlit will provide a local URL to open in your browser.
-Optional: semantic search
-Once the MVP works, consider adding sentence-transformers and either
-FAISS or Chroma. Choose one vector-store approach rather than adding
-every tool at once.
+```
 
-API key safety: If you later use an LLM API, keep its key in an
-environment variable or a local secrets file excluded from Git. Never
-commit API keys to GitHub.
-🧪 Testing Plan
-  Test case                           Expected result
-  Upload a readable PDF               Text is extracted
+To record the installed dependencies:
 
-  Upload a TXT file                   Text is loaded
+``` bash
+python -m pip freeze > requirements.txt
+```
 
-  Ask a question answered in the      Relevant passage is retrieved
-  document                            
+These commands install the initial dependencies; they do not create the
+application code automatically.
 
-  Ask about information absent from   App reports insufficient evidence
-  the document                        
+------------------------------------------------------------------------
 
-  Upload an empty or unreadable file  App shows a clear warning
+## 7. References
 
-  Ask an unrelated question           App avoids presenting an irrelevant
-                                      passage as a certain answer
+> Add the sources you actually read or tested. For each one, write what
+> you used it for. Do not list a source as tested if you only opened its
+> webpage.
 
-  Process a long document             Text is chunked and searchable
-  Review an answer                    Supporting evidence is visible
-Scanned PDFs may require OCR (optical character recognition), which is
-outside the initial MVP unless you add it.
-🔐 Privacy, Safety, and Limitations
-- Source verification: A retrieved passage may be relevant but can
-  still be misunderstood. Users should verify important answers.
-- No invented certainty: The application should provide a fallback
-  when evidence is insufficient.
-- PDF limitations: Basic text extraction may miss text in scanned
-  pages, tables, or complex layouts.
-- Retrieval limitations: Keyword search may miss passages that use
-  different wording. Semantic search may improve this.
-- Privacy: Avoid sending confidential documents to third-party
-  APIs without authorization.
-- API costs: An LLM API may have usage costs and requires secure
-  key handling.
-- Not professional advice: ProofFind helps locate information; it
-  does not replace official or professional judgment.
-🗺️ Development Roadmap
-  Phase                   Work                    Deliverable
-  Phase 1 --- MVP     Build upload UI and     Text appears in the app
-                          PDF/TXT extraction      
+-   [Streamlit documentation](https://docs.streamlit.io/) --- reference
+    for building the application interface.
+-   [pypdf documentation](https://pypdf.readthedocs.io/) --- reference
+    for extracting text from PDFs.
+-   [scikit-learn feature extraction
+    documentation](https://scikit-learn.org/stable/modules/feature_extraction.html)
+    --- reference for TF-IDF and text features.
+-   [Sentence Transformers documentation](https://www.sbert.net/) ---
+    optional reference for semantic embeddings.
+-   [FAISS documentation](https://faiss.ai/) --- optional reference for
+    vector similarity search.
 
-  Phase 2 ---           Implement chunking and  Relevant passages
-  Retrieval             TF-IDF / keyword search appear for questions
+------------------------------------------------------------------------
 
-  Phase 3 ---           Show source passages    Verifiable answer flow
-  Evidence              and missing-evidence
-                          fallback                
+## Project status
 
-  Phase 4 ---           Create sample questions Measurable retrieval
-  Evaluation            and tests               behavior
+**Status:** Project specification and implementation plan.
 
-  Phase 5 ---           Add embeddings and      Improved semantic
-  Enhancement           optional LLM answers    search and answer
-                                                  presentation
-  Phase 6 ---           Polish UI and rehearse  Ready-to-show project
-  Presentation          demo                    prototype
-✅ Success Criteria
-The first version should be considered successful when it can:
-- [ ] Accept a readable PDF or TXT file.
-- [ ] Extract and chunk the document text.
-- [ ] Retrieve relevant passages for a prepared set of questions.
-- [ ] Display supporting evidence with the answer.
-- [ ] Abstain when the source does not support an answer.
-- [ ] Handle empty or unreadable files with a clear message.
-- [ ] Run locally using documented setup instructions.
-🌱 Future Enhancements
-- 🔗 Page-level citations and clickable source references.
-- 🧠 Embedding-based semantic retrieval.
-- 🗃️ A vector database for larger document collections.
-- 📚 Search across multiple uploaded documents.
-- 📊 A small evaluation dashboard to compare retrieval approaches.
-- 📥 Exportable answers and source passages.
-- 🔐 Local-only processing mode for privacy-sensitive documents.
-👨‍💻 Skills Demonstrated
-By completing ProofFind, you can demonstrate:
+This README documents ProofFind's problem, proposed scope, architecture, setup approach, expected behavior, and evaluation plan. The provided source document does not establish that the application has been implemented or tested, so example outputs and expected behaviors are clearly identified as illustrative. Update this section with verified implementation details, screenshots, and test results once available.
 
-Python · Document Processing · Information Retrieval · Streamlit
-· Testing · Embeddings (optional) · RAG Concepts ·
-Responsible AI
-📌 Project Status
-Current status: Project proposal / implementation plan.
+## Team
 
-This README describes the intended design and workflow. Features should
-only be marked as implemented after the code has been written and
-tested.
-::: {align="center"}
-### 🔎 ProofFind
+- **Vrushabh Sonawane**
+- **Yash Aryaa**
+
+## Future improvements
+
+- Add OCR support for scanned PDFs.
+- Evaluate semantic retrieval if keyword/TF-IDF retrieval is not sufficient.
+- Add optional LLM-based answer phrasing while keeping source evidence visible.
+- Expand automated tests for empty files, unsupported formats, missing answers, and weak matches.
+- Record measured results from a small, repeatable evaluation set.
